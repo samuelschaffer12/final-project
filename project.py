@@ -55,3 +55,5 @@ print("Tracking points: ", track)
 pygame.quit
 
 
+#next will be calculating time
+
