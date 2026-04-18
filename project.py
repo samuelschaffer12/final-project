@@ -4,18 +4,17 @@ import pygame
 
 
 class Car:
-    def __init__(self, name, speed, turn_left, turn_right, acceleration, distance):
+    def __init__(self, name, speed, turn_left, turn_right, distance):
         self.name = name
         self.speed = speed
         self.turn_left = turn_left
         self.turn_right = turn_right
-        self.acceleration = acceleration
         self.distance = distance
-car1 = Car("SpeedDemon", 9,5,5,8,7)
-car2 = Car("Lefty", 6,9,8,5,6)
-car3 = Car("Righty", 6,8,9,5,6)
-car4 = Car("Balanced", 7,7,7,7,7)
-car5 = Car("Excel", 7,5,6,9,7)
+car1 = Car("SpeedDemon", 9,6,6,7)
+car2 = Car("Lefty", 6,9,7,6)
+car3 = Car("Righty", 6,7,9,6)
+car4 = Car("Balanced", 7,7,7,7)
+
 
 #all of the pygame functions were looked up as I wasn't very familiar with the external tool
 pygame.init()
@@ -52,8 +51,43 @@ def track_drawing_function():
         pygame.display.update()
 track = track_drawing_function()
 print("Tracking points: ", track)
-pygame.quit
+pygame.quit()
 
 
-#next will be calculating time
+def track_analyzation(when_pressed):
+    track_distance=0
+    track_left_turns=0
+    track_right_turns=0
+
+    for i in range(1,len(when_pressed)):
+        x1,y1 = when_pressed[i-1]
+        x2,y2 = when_pressed[i]
+#looked up best ways to find distance
+        distance_calc = math.sqrt((x2-x1)**2+(y2-y1)**2)
+        track_distance += distance_calc
+    for i in range(1, len(when_pressed)-1):
+        x1,y1 = when_pressed[i-1]
+        x2,y2 = when_pressed[i]
+        x3,y3 = when_pressed[i+1]
+
+        x_v1 = x2-x1
+        y_v1 = y2-y1
+        x_v2 = x3-x2
+        y_v2 = y3-y2
+
+        final_point_calc = (x_v1*y_v2)- (y_v1*x_v2)
+
+        if final_point_calc >0:
+            track_left_turns +=1
+        elif final_point_calc <0:
+            track_right_turns +=1
+    return track_distance, track_left_turns, track_right_turns
+
+
+
+
+
+
+    
+
 
